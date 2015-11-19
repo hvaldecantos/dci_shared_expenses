@@ -1,6 +1,7 @@
 require './create_expense_context'
 require './split_expense_context'
 require './account_debtors_context'
+require './account_creditors_context'
 require './user'
 require './share'
 require './expense'
@@ -41,3 +42,4 @@ p Payment.all
 puts "--------------"
 
 AccountDebtorsContext::execute 2
+AccountCreditorsContext::execute 2

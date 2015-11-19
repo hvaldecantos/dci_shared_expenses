@@ -13,4 +13,14 @@ module AccountantRole
     end
     debtors
   end
+
+  def compute_creditors
+    creditors = {}
+    context.payments.each do |p|
+      Share.where('expense_id = ? and user_id == ?', p.expense_id, context.accountant.id).each do |s|
+        creditors[p.user.name] == nil ? creditors[p.user.name] = s.amount : creditors[p.user.name] += s.amount
+      end
+    end
+    creditors
+  end
 end
