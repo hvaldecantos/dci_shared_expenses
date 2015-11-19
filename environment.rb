@@ -6,6 +6,7 @@ require './user'
 require './share'
 require './expense'
 require './payment'
+require './settlement'
 
 User.new(name: "Adele").save
 CreateExpenseContext::execute 1, "Rent" # => This context is not very useful
@@ -29,10 +30,14 @@ SplitExpenseContext::execute 1, 2, {1 => 10.1, 2 => 10.1, 3 => 10.1}
 SplitExpenseContext::execute 1, 3, {1 => 3.3, 2 => 3.3, 3 => 3.3}
 SplitExpenseContext::execute 1, 4, {1 => 4.4, 3 => 4.4}
 
-Payment.new(user_id: 2, expense_id: 1).save
-Payment.new(user_id: 1, expense_id: 2).save
-Payment.new(user_id: 2, expense_id: 3).save
-Payment.new(user_id: 2, expense_id: 4).save
+p1 = Payment.new(user_id: 2, expense_id: 1)
+p2 = Payment.new(user_id: 1, expense_id: 2)
+p3 = Payment.new(user_id: 2, expense_id: 3)
+p4 = Payment.new(user_id: 2, expense_id: 4)
+p1.save
+p2.save
+p3.save
+p4.save
 
 puts "--------------"
 p User.all
@@ -43,3 +48,11 @@ puts "--------------"
 
 AccountDebtorsContext::execute 2
 AccountCreditorsContext::execute 2
+
+s1 = Settlement.new(user_id: 1, creditor_id: 2, amount: 10.1)
+s2 = Settlement.new(user_id: 1, creditor_id: 2, amount: 57.7)
+s1.save
+s2.save
+
+puts "------------"
+p s1.creditor.received_settlements

@@ -25,4 +25,10 @@ ActiveRecord::Schema.define do
     t.belongs_to :expense, index: true
     t.belongs_to :user, index: true
   end
+
+  create_table :settlements, force: true do |t|
+    t.belongs_to :user, index: true
+    t.belongs_to :creditor, :class_name => :user, index: true
+    t.decimal :amount, :precision => 8, :scale => 2
+  end
 end
