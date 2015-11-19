@@ -56,3 +56,4 @@ s2.save
 
 puts "------------"
 p s1.creditor.received_settlements
+p s1.creditor.provided_settlements
