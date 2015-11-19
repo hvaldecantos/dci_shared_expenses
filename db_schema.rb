@@ -13,6 +13,6 @@ ActiveRecord::Schema.define do
 
   create_table :expenses, force: true do |t|
     t.string :description
-    t.decimal :total, :precision => 8, :scale => 2
+    t.decimal :amount, :precision => 8, :scale => 2
   end
 end
