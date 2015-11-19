@@ -1,5 +1,5 @@
 require './create_expense_context'
-
+require './split_expense_context'
 require './user'
 require './share'
 require './expense'
@@ -15,16 +15,10 @@ u1.save
 u2.save
 e.save
 
-s = Share.new user_id: u1.id, expense_id: e.id, amount: 50.25
-s.save
-
-s = Share.new user_id: u2.id, expense_id: e.id, amount: 50.25
-s.save
+SplitExpenseContext::execute 1, 1, {1 => 1250.0, 2 => 50.25}
 
 puts "--------------"
 p User.all
 p Expense.all
 p Share.all
-
 puts "--------------"
-puts u1.shares
