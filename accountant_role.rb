@@ -23,4 +23,12 @@ module AccountantRole
     end
     creditors
   end
+
+  def compute_received_settlements
+    creditors = {}
+    context.settlements.each do |s|
+      creditors[s.user.name] == nil ? creditors[s.user.name] = s.amount : creditors[s.user.name] += s.amount
+    end
+    creditors
+  end
 end

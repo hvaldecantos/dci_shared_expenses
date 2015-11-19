@@ -2,6 +2,7 @@ require './create_expense_context'
 require './split_expense_context'
 require './account_debtors_context'
 require './account_creditors_context'
+require './account_received_settlements_context'
 require './user'
 require './share'
 require './expense'
@@ -55,5 +56,5 @@ s1.save
 s2.save
 
 puts "------------"
-p s1.creditor.received_settlements
+AccountReceivedSettlementsContext::execute 2
 p s1.creditor.provided_settlements
