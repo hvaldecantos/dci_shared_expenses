@@ -3,6 +3,7 @@ require './split_expense_context'
 require './user'
 require './share'
 require './expense'
+require './payment'
 
 User.new(name: "Adele").save
 CreateExpenseContext::execute 1, "Rent"
@@ -17,8 +18,11 @@ e.save
 
 SplitExpenseContext::execute 1, 1, {1 => 1250.0, 2 => 50.25}
 
+Payment.new(user_id: 2, expense_id: 1).save
+
 puts "--------------"
 p User.all
 p Expense.all
 p Share.all
+p Payment.all
 puts "--------------"
