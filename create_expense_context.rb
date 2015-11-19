@@ -3,17 +3,16 @@ require './registrar_role'
 require './user'
 
 class CreateExpenseContext
-  attr_reader :registrar, :description, :amount
+  attr_reader :registrar, :description
   include ContextAccessor
 
-  def self.execute(user_id, description, amount)
-    CreateExpenseContext.new(user_id, description, amount).execute
+  def self.execute(user_id, description)
+    CreateExpenseContext.new(user_id, description).execute
   end
 
-  def initialize(user_id, description, amount)
+  def initialize(user_id, description)
     @registrar = User.find(user_id).extend RegistrarRole
     @description = description
-    @amount = amount
   end
 
   def execute

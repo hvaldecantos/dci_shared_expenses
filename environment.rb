@@ -5,11 +5,11 @@ require './share'
 require './expense'
 
 User.new(name: "Adele").save
-CreateExpenseContext::execute 1, "Rent", 1300.25
+CreateExpenseContext::execute 1, "Rent"
 
 u1 = User.new name: "hector"
 u2 = User.new name: "adrian"
-e = Expense.new description: "renta", amount: 100.50
+e = Expense.new description: "renta"
 
 u1.save
 u2.save
