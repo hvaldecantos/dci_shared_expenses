@@ -6,7 +6,7 @@ module AccountantRole
 
   def compute_debtors
     debtors = {}
-    context.payments.each do |p|
+    context.made_payments.each do |p|
       Share.order('user_id').where('expense_id = ? and user_id != ?', p.expense_id, context.accountant.id).each do |s|
         debtors[s.user.name] == nil ? debtors[s.user.name] = s.amount : debtors[s.user.name] += s.amount
       end
@@ -16,7 +16,7 @@ module AccountantRole
 
   def compute_creditors
     creditors = {}
-    context.payments.each do |p|
+    context.received_payments.each do |p|
       Share.where('expense_id = ? and user_id == ?', p.expense_id, context.accountant.id).each do |s|
         creditors[p.user.name] == nil ? creditors[p.user.name] = s.amount : creditors[p.user.name] += s.amount
       end

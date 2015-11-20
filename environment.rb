@@ -4,6 +4,7 @@ require './account_debtors_context'
 require './account_creditors_context'
 require './account_received_settlements_context'
 require './account_provided_settlements_context'
+require './compute_balance_context'
 require './user'
 require './share'
 require './expense'
@@ -11,49 +12,53 @@ require './payment'
 require './settlement'
 
 User.new(name: "Adele").save
-CreateExpenseContext::execute 1, "Rent" # => This context is not very useful
+User.new(name: "Hector").save
+User.new(name: "Alan").save
 
-u2 = User.new name: "hector"
-u3 = User.new name: "adrian"
-e2 = Expense.new description: "Beer"    # => Instead of using the context
-e3 = Expense.new description: "Food"
-e4 = Expense.new description: "Table"
-e5 = Expense.new description: "Unpaid"
+adele_id = 1
+hector_id = 2
+alan_id = 3
 
-u2.save
-u3.save
-e2.save
-e3.save
-e4.save
-e5.save
+Expense.new(description: "Beer").save
+Expense.new(description: "Pizza").save
+Expense.new(description: "Tickets").save
 
-SplitExpenseContext::execute 1, 1, {1 => 1250.0, 2 => 50.25}
-SplitExpenseContext::execute 1, 2, {1 => 10.1, 2 => 10.1, 3 => 10.1}
-SplitExpenseContext::execute 1, 3, {1 => 3.3, 2 => 3.3, 3 => 3.3}
-SplitExpenseContext::execute 1, 4, {1 => 4.4, 3 => 4.4}
+beer_expense_id = 1
+pizza_expense_id = 2
+tickets_expense_id = 3
 
-p1 = Payment.new(user_id: 2, expense_id: 1)
-p2 = Payment.new(user_id: 1, expense_id: 2)
-p3 = Payment.new(user_id: 2, expense_id: 3)
-p4 = Payment.new(user_id: 2, expense_id: 4)
-p1.save
-p2.save
-p3.save
-p4.save
+SplitExpenseContext::execute 1, beer_expense_id, {adele_id => 3.25, hector_id => 3.25, alan_id => 3.25}
+SplitExpenseContext::execute 1, pizza_expense_id, {adele_id => 7.10, hector_id => 7.10}
+SplitExpenseContext::execute 1, tickets_expense_id, {adele_id => 5.70, hector_id => 5.70, alan_id => 5.70}
 
-puts "Debtors --------------"
-AccountDebtorsContext::execute 2
-puts "Creditors ------------"
-AccountCreditorsContext::execute 2
+Payment.new(user_id: hector_id, expense_id: beer_expense_id).save
+Payment.new(user_id: adele_id, expense_id: pizza_expense_id).save
+Payment.new(user_id: hector_id, expense_id: beer_expense_id).save
+Payment.new(user_id: alan_id, expense_id: tickets_expense_id).save
+Payment.new(user_id: hector_id, expense_id: beer_expense_id).save
 
-s1 = Settlement.new(user_id: 1, creditor_id: 2, amount: 10.1)
-s2 = Settlement.new(user_id: 1, creditor_id: 2, amount: 57.7)
-s3 = Settlement.new(user_id: 3, creditor_id: 2, amount: 7.2)
-s1.save
-s2.save
-s3.save
+puts "Adele balance --------------"
+ComputeBalanceContext::execute adele_id
+puts "Hector balance -------------"
+ComputeBalanceContext::execute hector_id
+puts "Alan balance ---------------"
+ComputeBalanceContext::execute alan_id
+
+Expense.new(description: "Payback").save
+SplitExpenseContext::execute 1, 4, {hector_id => 4.05}
+Payment.new(user_id: alan_id, expense_id: 4).save
+
+Settlement.new(user_id: adele_id, creditor_id: hector_id, amount: 2.65).save
+
+puts
+puts "Adele balance --------------"
+ComputeBalanceContext::execute adele_id
+puts "Hector balance -------------"
+ComputeBalanceContext::execute hector_id
+puts "Alan balance ---------------"
+ComputeBalanceContext::execute alan_id
 
 puts "Receive debt settlements ------------"
-AccountReceivedSettlementsContext::execute 2
-puts "Receive provided settlements --------"
-AccountProvidedSettlementsContext::execute 1
+AccountReceivedSettlementsContext::execute hector_id
+puts "Provided debt settlements --------"
+AccountProvidedSettlementsContext::execute adele_id

@@ -3,7 +3,7 @@ require './accountant_role'
 require './user'
 
 class AccountDebtorsContext
-  attr_reader :accountant, :payments
+  attr_reader :accountant, :made_payments
   include ContextAccessor
 
   def self.execute(user_id)
@@ -12,7 +12,7 @@ class AccountDebtorsContext
 
   def initialize(user_id)
     @accountant = User.find(user_id).extend AccountantRole
-    @payments = @accountant.payments
+    @made_payments = @accountant.payments
   end
 
   def execute
