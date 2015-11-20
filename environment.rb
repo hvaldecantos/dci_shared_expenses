@@ -5,6 +5,7 @@ require './account_creditors_context'
 require './account_received_settlements_context'
 require './account_provided_settlements_context'
 require './compute_balance_context'
+require './register_shared_expense_payment_context'
 require './user'
 require './share'
 require './expense'
@@ -36,6 +37,8 @@ Payment.new(user_id: adele_id, expense_id: pizza_expense_id).save
 Payment.new(user_id: hector_id, expense_id: beer_expense_id).save
 Payment.new(user_id: alan_id, expense_id: tickets_expense_id).save
 Payment.new(user_id: hector_id, expense_id: beer_expense_id).save
+
+RegisterSharedExpensePaymentContext::execute adele_id, "Taxi ride", {adele_id => 2.1, alan_id => 2.1}
 
 puts "Adele balance --------------"
 ComputeBalanceContext::execute adele_id
