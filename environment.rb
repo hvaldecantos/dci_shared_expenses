@@ -3,6 +3,7 @@ require './split_expense_context'
 require './account_debtors_context'
 require './account_creditors_context'
 require './account_received_settlements_context'
+require './account_provided_settlements_context'
 require './user'
 require './share'
 require './expense'
@@ -40,21 +41,19 @@ p2.save
 p3.save
 p4.save
 
-puts "--------------"
-p User.all
-p Expense.all
-p Share.all
-p Payment.all
-puts "--------------"
-
+puts "Debtors --------------"
 AccountDebtorsContext::execute 2
+puts "Creditors ------------"
 AccountCreditorsContext::execute 2
 
 s1 = Settlement.new(user_id: 1, creditor_id: 2, amount: 10.1)
 s2 = Settlement.new(user_id: 1, creditor_id: 2, amount: 57.7)
+s3 = Settlement.new(user_id: 3, creditor_id: 2, amount: 7.2)
 s1.save
 s2.save
+s3.save
 
-puts "------------"
+puts "Receive debt settlements ------------"
 AccountReceivedSettlementsContext::execute 2
-p s1.creditor.provided_settlements
+puts "Receive provided settlements --------"
+AccountProvidedSettlementsContext::execute 1
