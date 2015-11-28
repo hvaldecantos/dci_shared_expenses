@@ -8,6 +8,7 @@ require './display_debtors_context'
 require './display_creditors_context'
 require './display_balance_context'
 require './register_equally_shared_expense_payment_context'
+require './display_report_context'
 
 adele = User.new(name: "Adele")
 dan = User.new(name: "Dan")
@@ -42,3 +43,7 @@ puts "dan balance ------------"
 DisplayBalanceContext::execute dan.id
 puts "alan balance -----------"
 DisplayBalanceContext::execute alan.id
+
+DisplayReportContext::execute adele.id
+DisplayReportContext::execute dan.id
+DisplayReportContext::execute alan.id
