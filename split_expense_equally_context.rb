@@ -4,7 +4,7 @@ require './user'
 require './expense'
 
 class SplitExpenseEquallyContext
-  attr_reader :expense, :people, :total_amount
+  attr_reader :expense, :registrars, :share
   include ContextAccessor
 
   def self.execute(expense_id, user_ids, total_amount)
@@ -13,13 +13,13 @@ class SplitExpenseEquallyContext
 
   def initialize(expense_id, user_ids, total_amount)
     @expense = Expense.find(expense_id)
-    @people = user_ids.map{ |user_id| User.find(user_id).extend RegistrarRole }
-    @total_amount = total_amount
+    @registrars = user_ids.map{ |user_id| User.find(user_id).extend RegistrarRole }
+    @share = total_amount / user_ids.size
   end
 
   def execute
     execute_in_context do
-      people.each{ |person| person.split_expense }
+      registrars.each{ |registrar| registrar.record_share }
     end
   end
 end
