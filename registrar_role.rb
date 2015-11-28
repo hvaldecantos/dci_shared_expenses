@@ -23,4 +23,12 @@ module RegistrarRole
       end
     end
   end
+  def show_balance_report
+    debtors = self.compute_debtors
+    creditors = self.compute_creditors
+    balance = debtors.merge(creditors).inject({}){|h, (k,v)| h.merge( k => {name: v[:name], amount: 0.0} ) }
+    balance = balance.merge(debtors).merge(creditors) {|user, deb, cred| {name: deb[:name], amount: deb[:amount] - cred[:amount]} }
+    puts "Balance report - #{self.name} -----------"
+    balance.each {|k,v| puts "id: %-3d user: %-8s amount: %5.2f" % [k, v[:name], v[:amount]] }
+  end
 end
