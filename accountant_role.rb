@@ -8,7 +8,7 @@ module AccountantRole
     debtors = {}
     context.payments_made.each do |p|
       p.expense.shares.each do |s|
-        next if s.user_id == context.accountant.id
+        next if s.user_id == self.id
         debtors[s.user.id] ||= { name: "", amount: 0.0 }
         debtors[s.user.id][:name] = s.user.name
         debtors[s.user.id][:amount] += s.amount
@@ -21,7 +21,7 @@ module AccountantRole
     creditors = {}
     context.payments_received.each do |p|
       p.expense.shares.each do |s|
-        next if s.user_id != context.accountant.id
+        next if s.user_id != self.id
         creditors[p.user.id] ||= { name: "", amount: 0.0 }
         creditors[p.user.id][:name] = p.user.name
         creditors[p.user.id][:amount] += s.amount
