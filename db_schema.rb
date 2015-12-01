@@ -10,4 +10,9 @@ ActiveRecord::Schema.define do
   create_table :users, force: true do |t|
     t.string :name
   end
+
+  create_table :expenses, force: true do |t|
+    t.string :description
+    t.belongs_to :user, index: true
+  end
 end
