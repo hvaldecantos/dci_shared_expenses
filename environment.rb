@@ -5,6 +5,7 @@ require './register_shared_expense_payment_context'
 require './print_debtors_context'
 require './print_creditors_context'
 require './print_balance_context'
+require './print_report_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
@@ -19,3 +20,5 @@ RegisterSharedExpensePaymentContext::execute alan.id, [adele.id, dan.id, alan.id
 PrintBalanceContext::execute adele.id
 PrintBalanceContext::execute dan.id
 PrintBalanceContext::execute alan.id
+
+PrintReportContext::execute adele.id
