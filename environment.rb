@@ -13,6 +13,8 @@ alan = User.create name: "Alan"
 RegisterSharedExpensePaymentContext::execute adele.id, [adele.id, dan.id], "Pizza", 14.20
 RegisterSharedExpensePaymentContext::execute dan.id, [adele.id, dan.id, alan.id], "Beer", 10.00
 RegisterSharedExpensePaymentContext::execute alan.id, [adele.id, dan.id, alan.id], "Ticket", 23.00
+RegisterSharedExpensePaymentContext::execute dan.id, [adele.id, dan.id, alan.id], "Beer", 10.00
+RegisterSharedExpensePaymentContext::execute alan.id, [adele.id, dan.id, alan.id], "Taxy ride", 24.00
 
 PrintBalanceContext::execute adele.id
 PrintBalanceContext::execute dan.id
