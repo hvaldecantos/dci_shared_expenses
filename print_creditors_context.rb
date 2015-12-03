@@ -2,6 +2,7 @@ require './context_accessor'
 require './user'
 require './payment'
 require './payee_role'
+require './reporter_role'
 
 class PrintCreditorsContext
   attr_reader :payee, :received_payments
@@ -12,15 +13,14 @@ class PrintCreditorsContext
   end
 
   def initialize(user_id)
-    @payee = User.find(user_id).extend PayeeRole
+    @payee = User.find(user_id).extend(PayeeRole).extend(ReporterRole)
     @received_payments = Payment.where('user_id != ?', @payee.id)
   end
 
   def execute
     execute_in_context do
       creditors = payee.compute_creditors
-      puts "- #{payee.name} creditors:"
-      creditors.each {|k,v| puts "id: %-3d user: %-8s amount: %5.2f" % [k, v[:name], v[:amount]] }
+      payee.print creditors, "- #{payee.name} creditors:"
     end
   end
 end

@@ -1,6 +1,7 @@
 require './context_accessor'
 require './payer_role'
 require './payee_role'
+require './reporter_role'
 require './user'
 require './payment'
 
@@ -13,7 +14,7 @@ class PrintBalanceContext
   end
 
   def initialize(user_id)
-    @payer = User.find(user_id).extend PayerRole
+    @payer = User.find(user_id).extend(PayerRole).extend(ReporterRole)
     @payee = @payer.extend PayeeRole
     @paid_expenses = @payer.payments
     @received_payments = Payment.where('user_id != ?', @payee.id)

@@ -1,5 +1,6 @@
 require './context_accessor'
 require './payer_role'
+require './reporter_role'
 require './user'
 
 class PrintDebtorsContext
@@ -11,15 +12,14 @@ class PrintDebtorsContext
   end
 
   def initialize(user_id)
-    @payer = User.find(user_id).extend PayerRole
+    @payer = User.find(user_id).extend(PayerRole).extend(ReporterRole)
     @paid_expenses = @payer.payments
   end
 
   def execute
     execute_in_context do
       debtors = payer.compute_debtors
-      puts "- #{payer.name} debtors:"
-      debtors.each {|k,v| puts "id: %-3d user: %-8s amount: %5.2f" % [k, v[:name], v[:amount]] }
+      payer.print debtors, "- #{payer.name} debtors:"
     end
   end
 end
