@@ -14,4 +14,10 @@ ActiveRecord::Schema.define do
   create_table :expenses, force: true do |t|
     t.string :description
   end
+
+  create_table :shares, force: true do |t|
+    t.belongs_to :expense, index: true
+    t.belongs_to :user, index: true
+    t.decimal :amount, :precision => 8, :scale => 2
+  end
 end
