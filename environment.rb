@@ -2,6 +2,7 @@ require './user'
 require './expense'
 require './share'
 require './payment'
+require './split_expense_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
@@ -15,13 +16,10 @@ p User.all
 p Expense.all
 
 # sharing a pizza
-adele.shares.create(expense: pizza, amount: 7.10)
-Share.create(user: dan, expense: pizza, amount: 7.10)
+SplitExpenseContext::execute pizza.id, [adele.id, dan.id], 14.20
 
 # sharing beer
-adele.shares.create(expense: beer, amount: 3.25)
-dan.shares.create(expense: beer, amount: 3.25)
-alan.shares.create(expense: beer, amount: 3.25)
+SplitExpenseContext::execute beer.id, [adele.id, dan.id, alan.id], 9.75
 
 p Share.all
 
