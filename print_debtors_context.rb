@@ -4,7 +4,7 @@ require './user'
 require './payment'
 
 class PrintDebtorsContext
-  attr_reader :accountant, :payments
+  attr_reader :accountant, :made_payments
   include ContextAccessor
 
   def self.execute(user_id)
@@ -13,7 +13,7 @@ class PrintDebtorsContext
 
   def initialize(user_id)
     @accountant = User.find(user_id).extend AccountantRole
-    @payments = @accountant.payments
+    @made_payments = @accountant.payments
   end
 
   def execute
