@@ -6,6 +6,7 @@ require './split_expense_context'
 require './register_payment_context'
 require './print_creditors_context'
 require './print_debtors_context'
+require './print_balance_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
@@ -20,11 +21,8 @@ p Expense.all
 p Share.all
 p Payment.all
 
-PrintDebtorsContext::execute adele.id
-PrintCreditorsContext::execute adele.id
+PrintBalanceContext::execute adele.id
 
-PrintDebtorsContext::execute dan.id
-PrintCreditorsContext::execute dan.id
+PrintBalanceContext::execute dan.id
 
-PrintDebtorsContext::execute alan.id
-PrintCreditorsContext::execute alan.id
+PrintBalanceContext::execute alan.id
