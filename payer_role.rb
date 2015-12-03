@@ -6,7 +6,7 @@ module PayerRole
 
   def record_payment
     SplitExpenseContext::execute(context.expense.id, context.payee_ids, context.total_amount)
-    context.payer.payments.create(expense: context.expense)
+    self.payments.create(expense: context.expense)
   end
   def compute_debtors
     debtors = {}
