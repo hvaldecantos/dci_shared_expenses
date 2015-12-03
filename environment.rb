@@ -3,6 +3,7 @@ require './expense'
 require './share'
 require './payment'
 require './register_shared_expense_payment_context'
+require './print_creditors_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
@@ -16,3 +17,6 @@ p User.all
 p Expense.all
 p Share.all
 p Payment.all
+
+PrintCreditorsContext::execute adele.id
+PrintCreditorsContext::execute dan.id
