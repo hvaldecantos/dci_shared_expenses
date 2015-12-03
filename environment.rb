@@ -6,10 +6,13 @@ require './print_debtors_context'
 require './print_creditors_context'
 require './print_balance_context'
 require './print_report_context'
+require './split_expense_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
 alan = User.create name: "Alan"
+
+SplitExpenseContext::execute adele.id, [adele.id, dan.id, alan.id], "Expense", 33.33
 
 RegisterSharedExpensePaymentContext::execute adele.id, [adele.id, dan.id], "Pizza", 14.20
 RegisterSharedExpensePaymentContext::execute dan.id, [adele.id, dan.id, alan.id], "Beer", 10.00
