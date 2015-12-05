@@ -4,6 +4,7 @@ require './share'
 require './payment'
 require './register_payment_context'
 require './print_balance_context'
+require './print_report_context'
 
 adele = User.create name: "Adele"
 dan = User.create name: "Dan"
@@ -16,3 +17,5 @@ RegisterPaymentContext::execute alan.id, [adele.id, dan.id, alan.id], "Tickets",
 PrintBalanceContext::execute adele.id
 PrintBalanceContext::execute dan.id
 PrintBalanceContext::execute alan.id
+
+PrintReportContext::execute adele.id
